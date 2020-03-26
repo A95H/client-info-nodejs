@@ -4,7 +4,6 @@ const http = require('http')
 const app = express()
 const port = 3000;
 const fs = require('fs');
-const superagent = require('superagent');
 
 app.use(express.static(__dirname + '/public'));
 

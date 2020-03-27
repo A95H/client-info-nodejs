@@ -41,9 +41,10 @@ app.get('*',function(req,res,next) {
     JSON.stringify(req.useragent)+'\n'+
     JSON.stringify(req.fingerprint)+'\n'+
     req.connection.remoteAddress+'\n';
-    fs.readFile('info/user-info.json',(err,oldData)=>{
-        fs.writeFileSync('info/user-info.json',oldData+'\n'+newData)
-    })
+//     fs.readFile('info/user-info.json',(err,oldData)=>{
+//         fs.writeFileSync('info/user-info.json',oldData+'\n'+newData)
+//     })
+    console.log(newData+'--------------------'+'\n')
     const img= fs.readFileSync('public/1.jpg')
     res.writeHead(200, {'Content-Type': 'image/gif' });
     res.end(img)

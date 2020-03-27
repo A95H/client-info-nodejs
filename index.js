@@ -34,7 +34,7 @@ app.use(Fingerprint({
     ]
 }))
 
-app.get('/',function(req,res,next) {    
+app.get('*',function(req,res,next) {    
       
     var newData = 
     new Date()+'\n'+

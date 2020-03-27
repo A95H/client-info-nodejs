@@ -5,11 +5,13 @@ const app = express()
 const port = 3000;
 const fs = require('fs');
 
+
 app.use(express.static(__dirname + '/public'));
 
 var useragent = require('express-useragent');
 var Fingerprint = require('express-fingerprint')
 
+app.enable('trust proxy')
 app.use(useragent.express());
 app.use(Fingerprint({
     parameters:[
@@ -40,16 +42,23 @@ app.get('*',function(req,res,next) {
     new Date()+'\n'+
     JSON.stringify(req.useragent)+'\n'+
     JSON.stringify(req.fingerprint)+'\n'+
-    req.connection.remoteAddress+'\n';
-//     fs.readFile('info/user-info.json',(err,oldData)=>{
-//         fs.writeFileSync('info/user-info.json',oldData+'\n'+newData)
-//     })
+    getClientIp(req)+'\n';
+    // fs.readFile('info/user-info.json',(err,oldData)=>{
+    //     fs.writeFileSync('info/user-info.json',oldData+'\n'+newData)
+    // })
     console.log(newData+'--------------------'+'\n')
     const img= fs.readFileSync('public/1.jpg')
     res.writeHead(200, {'Content-Type': 'image/gif' });
     res.end(img)
     
 })
+
+var getClientIp = function(req) {
+    return (req.headers["X-Forwarded-For"] ||
+            req.headers["x-forwarded-for"] ||
+            '').split(',')[0] ||
+           req.client.remoteAddress;
+};
 
 app.listen(process.env.PORT || 3000,()=>{
     console.log(`Listening on port ${port}`)
